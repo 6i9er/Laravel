@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\article;
+use App\comment;
 
 class posts extends Controller
 {
@@ -50,15 +51,18 @@ class posts extends Controller
 
     public function show($id)
     {
-    	echo $id;
-        $article= DB::table('articles')
-            ->where('id', $id)->get();
+
+        $article= DB::table('posts')
+            ->where('p_id', $id)->get();
+
+        $comments= DB::table('comments')
+            ->where('post_id', $id)->get();    
         //var_dump($article);
 
 
         if(count($article) > 0){
             //var_dump($articles);
-            return view('articles/show' , ['article' => $article]);    
+            return view('articles/show' , ['article' => $article , 'comments' => $comments]);    
         }
         else{
             echo "No Data Found";
@@ -89,6 +93,25 @@ class posts extends Controller
     	//echo $_POST['title'];
     	
         //return view('articles.create');    
+        
+    }
+
+
+    public function delete($id)
+    {
+        //echo "aaaaaaaaaa";
+        $article= DB::table('posts')
+            ->where('p_id', $id)->get();
+            if(count($article) > 0){
+                 
+                DB::table('comments')->where('post_id', '=', $id)->delete();
+                DB::table('posts')->where('p_id', '=', $id)->delete();
+                return Redirect::to('/home');
+            } 
+            else{
+                return Redirect::to('/home');
+            } 
+           
         
     }
 

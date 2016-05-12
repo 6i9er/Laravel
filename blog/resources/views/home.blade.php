@@ -32,9 +32,11 @@
                                         <td><?php echo $articles[$i]->name ?></td>
                                         <td>{{ $articles[$i]->title }}</td>
                                         <td>
-                                            <a href="<?php echo  url('/posts/') ?>/{{$articles[$i]->id}}" class="btn btn-info">View</a>
-                                            <a href="/posts/?post_id={{ $articles[$i]->id }}" class="btn btn-info">Update</a>
-                                            <a href="posts.php?post_id={{ $articles[$i]->id }}" class="btn btn-info">Delete</a>
+                                            <a href="<?php echo  url('/posts/') ?>/{{$articles[$i]->p_id}}" class="btn btn-info">View</a>
+                                            @if (Auth::user()->id == $articles[$i]->u_id)
+                                                <a href="<?php echo  url('/posts/edit') ?>/{{$articles[$i]->p_id}}" class="btn btn-info">Update</a>
+                                                <a href="<?php echo  url('/posts/delete') ?>/{{$articles[$i]->p_id}}" class="btn btn-info">Delete</a>
+                                            @endif
                                         </td>
                                     </tr>            
                                 

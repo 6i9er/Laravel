@@ -39,6 +39,10 @@ Route::get('/home', 'HomeController@index');
 Route::get('/posts/', 'posts@index');
 Route::get('/posts/new', 'posts@create');
 Route::post('/posts/create', 'posts@insert');
-Route::get('/posts/{id}', 'posts@show');
 
+Route::get('/posts/{id}', 'posts@show');
+Route::get('/posts/delete/{id}', 'posts@delete');
+
+Route::get('/comments/{id}', 'commentsController@delete');
+Route::post('/comments/create', 'commentsController@insert');
 
