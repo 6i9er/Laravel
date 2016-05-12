@@ -43,6 +43,10 @@ Route::post('/posts/create', 'posts@insert');
 Route::get('/posts/{id}', 'posts@show');
 Route::get('/posts/delete/{id}', 'posts@delete');
 
+Route::get('/posts/edit/{id}', 'posts@update_form');
+Route::post('/posts/update', 'posts@update');
+
+
 Route::get('/comments/{id}', 'commentsController@delete');
 Route::post('/comments/create', 'commentsController@insert');
 

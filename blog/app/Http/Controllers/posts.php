@@ -76,6 +76,58 @@ class posts extends Controller
         
     }
 
+    public function update_form($id)
+    {
+        //echo "aaaaaaaaaa";
+        $article= DB::table('posts')
+            ->where('p_id', $id)->get();
+            if(count($article) > 0){
+                return view('articles.update' , ['article' => $article]);         
+                
+                //return Redirect::to('/home');
+            } 
+            else{
+                return Redirect::to('/home');
+            } 
+        
+            
+        
+    }
+
+
+    public function update(Request $request)
+    {
+        
+        $article= DB::table('posts')
+            ->where('p_id', $_POST['post_id'])->get();
+            if(count($article) > 0){
+                if($article[0]->u_id == Auth::user()->id){
+                    $this->validate($request, [
+                        'title' => 'required|max:255',
+                        'mytext' => 'required',
+                        'u_id' => 'required|integer',
+                        'post_id' => 'required|integer',
+                    ]);
+
+                    DB::table('posts')
+                        ->where('p_id', $_POST['post_id'])
+                        ->update(['title' => $_POST['title'] , 'mytext' => $_POST['mytext'] ,'updated_at' => date('Y-m-d    h:m')  ] );
+                    return Redirect::to('/posts/edit/'.$_POST['post_id']);    
+                }
+                else{
+                    return Redirect::to('/home');
+                }
+            } 
+            else{
+                return Redirect::to('/home');
+            } 
+        
+            
+        
+    }
+
+
+
     public function insert(Request $request)
     {
 
@@ -103,10 +155,10 @@ class posts extends Controller
         $article= DB::table('posts')
             ->where('p_id', $id)->get();
             if(count($article) > 0){
-                 
-                DB::table('comments')->where('post_id', '=', $id)->delete();
-                DB::table('posts')->where('p_id', '=', $id)->delete();
-                return Redirect::to('/home');
+                    DB::table('comments')->where('post_id', '=', $id)->delete();
+                    DB::table('posts')->where('p_id', '=', $id)->delete();
+                    return Redirect::to('/home');
+
             } 
             else{
                 return Redirect::to('/home');
